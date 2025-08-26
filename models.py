@@ -39,8 +39,8 @@ class User:
         self.admin = admin
 
 
-# Tabela Instalações
-class Facility(Base):
+# Tabela de Espaço Esportivo
+class sport_center(Base):
     __tablename__ = "facilities"
 
     # Keys
@@ -81,10 +81,11 @@ class Field(Base):
 
     # Campos
     name = Column("name", String, nullable=False)
-    type = Column("type", String, nullable=False)
+    field_type = Column("type", String, nullable=False)
     price_per_hour = Column("price_per_hour", Numeric, nullable=False)
+    photo_path = Column("photo_path", String)
     description = Column("description", Text)
-
+ 
 
 # Tabela de Disponibilidades
 class Availability(Base):
