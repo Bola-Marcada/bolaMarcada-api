@@ -8,9 +8,7 @@ from sqlalchemy import (
     Boolean,
     ForeignKey,
 )
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
+from database import Base
 
 
 # Tabela Usuários
@@ -55,7 +53,16 @@ class SportsCenter(Base):
     photo_path = Column("photo_path", String)
     description = Column("description", String)
 
-    def __init__(self, user_id, name, cnpj, latitude, longitude, photo_path=None, description=None):
+    def __init__(
+        self,
+        user_id,
+        name,
+        cnpj,
+        latitude,
+        longitude,
+        photo_path=None,
+        description=None,
+    ):
         self.user_id = user_id
         self.name = name
         self.cnpj = cnpj
@@ -74,7 +81,7 @@ class Review(Base):
     field_id = Column("field_id", Integer, ForeignKey("fields.id"), nullable=False)
     user_id = Column("user_id", Integer, ForeignKey("users.id"), nullable=False)
 
-    #Campos
+    # Campos
     rating = Column("rating", Integer, nullable=False)
     comment = Column("comment", String)
     created_at = Column("created_at", DateTime)
@@ -93,7 +100,9 @@ class Field(Base):
 
     # Keys
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    sports_center_id = Column("sports_center_id", Integer, ForeignKey("sports_centers.id"), nullable=False)
+    sports_center_id = Column(
+        "sports_center_id", Integer, ForeignKey("sports_centers.id"), nullable=False
+    )
 
     # Campos
     name = Column("name", String, nullable=False)
@@ -102,7 +111,15 @@ class Field(Base):
     photo_path = Column("photo_path", String)
     description = Column("description", Text)
 
-    def __init__(self, sports_center_id, name, field_type, price_per_hour, photo_path=None, description=None):
+    def __init__(
+        self,
+        sports_center_id,
+        name,
+        field_type,
+        price_per_hour,
+        photo_path=None,
+        description=None,
+    ):
         self.sports_center_id = sports_center_id
         self.name = name
         self.field_type = field_type
@@ -120,7 +137,9 @@ class Availability(Base):
     field_id = Column("field_id", Integer, ForeignKey("fields.id"), nullable=False)
 
     # Campos
-    day_of_week = Column("day_of_week", Integer, nullable=False) # 0 = domingo, 1 = segunda, ...
+    day_of_week = Column(
+        "day_of_week", Integer, nullable=False
+    )  # 0 = domingo, 1 = segunda, ...
     start_time = Column("start_time", DateTime, nullable=False)
     end_time = Column("end_time", DateTime, nullable=False)
 
@@ -139,7 +158,7 @@ class Booking(Base):
     id = Column("id", Integer, primary_key=True, autoincrement=True)
     user_id = Column("user_id", Integer, ForeignKey("users.id"), nullable=False)
     field_id = Column("field_id", Integer, ForeignKey("fields.id"), nullable=False)
-    
+
     # Campos
     day_of_week = Column("day_of_week", Integer, nullable=False)
     start_time = Column("start_time", DateTime, nullable=False)
