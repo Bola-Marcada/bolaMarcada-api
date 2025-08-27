@@ -109,7 +109,7 @@ class Field(Base):
         self.price_per_hour = price_per_hour
         self.photo_path = photo_path
         self.description = description
- 
+
 
 # Tabela de Disponibilidades
 class Availability(Base):
