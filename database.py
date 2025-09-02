@@ -3,7 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQL_DATABASE_URL = ""
+user = "postgres"
+password = "1234"
+host = "localhost"
+port = "5432"
+database = "BolaMarcada-database"
+SQL_DATABASE_URL = f"postgresql://{user}:{password}@{host}:{port}/{database}"
 
 engine = create_engine(SQL_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
