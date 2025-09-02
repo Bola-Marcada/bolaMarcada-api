@@ -47,7 +47,7 @@ class SportsCenter(Base):
 
     # Campos
     name = Column("name", String, nullable=False)
-    cnpj = Column("cnpj", String, nullable=False)
+    cnpj = Column("cnpj", String, unique=True, nullable=False)
     latitude = Column("latitude", Numeric(9, 6), nullable=False)
     longitude = Column("longitude", Numeric(9, 6), nullable=False)
     photo_path = Column("photo_path", String)
