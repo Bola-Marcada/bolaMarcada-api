@@ -3,6 +3,7 @@ from schemas.sports_center_schema import CreateSportsCenterSchema
 from sqlalchemy.orm import Session
 from database import get_db
 from fastapi import Depends
+from models import SportsCenter
 
 sports_center_router = APIRouter(prefix="/sports_centers", tags=["sports_centers"])
 
@@ -15,15 +16,11 @@ async def create_sports_center(
 
     try:
         # Verifica se o CNPJ já está cadastrado
-        cnpj = (
-            session.query(sports_centers)
-            .filter_by(cnpj=create_sports_center_schema.cnpj)
-            .first()
-        )
+        cnpj = session.query(SportsCenter).filter_by(cnpj=create_sports_center_schema.cnpj).first()
 
         if cnpj:
             # Já existe um centro esportivo com esse CNPJ
-            raise HTTPException(status_code=400, detail="CNPJ já cadastrado.")
+            raise HTTPException(status_code=409, detail="CNPJ já cadastrado.")
         else:
             # Cria um novo centro esportivo
             new_sports_center = SportsCenter(
@@ -39,15 +36,18 @@ async def create_sports_center(
             session.commit()
             session.refresh(new_sports_center)
 
-            return {
-                "message": "Centro esportivo criado com sucesso.",
-                "sports_center_id": new_sports_center.id,
-            }
+            raise HTTPException(
+                status_code=201,
+                detail={
+                    "message": "Centro esportivo criado com sucesso.",
+                    "sports_center_id": new_sports_center.id,
+                },
+            )
 
     # Caso dê erro ao criar o centro esportivo
     except Exception as e:
         session.rollback()
         raise HTTPException(
-            status_code=500,
+            status_code=400,
             detail={"message": "Erro ao criar centro esportivo.", "error": str(e)},
         )

@@ -1,13 +1,4 @@
-from sqlalchemy import (
-    DateTime,
-    Numeric,
-    Text,
-    Column,
-    String,
-    Integer,
-    Boolean,
-    ForeignKey,
-)
+from sqlalchemy import DateTime, Numeric, Text, Column, String, Integer, Boolean, ForeignKey
 from database import Base
 
 
@@ -100,9 +91,7 @@ class Field(Base):
 
     # Keys
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    sports_center_id = Column(
-        "sports_center_id", Integer, ForeignKey("sports_centers.id"), nullable=False
-    )
+    sports_center_id = Column("sports_center_id", Integer, ForeignKey("sports_centers.id"), nullable=False)
 
     # Campos
     name = Column("name", String, nullable=False)
@@ -137,9 +126,7 @@ class Availability(Base):
     field_id = Column("field_id", Integer, ForeignKey("fields.id"), nullable=False)
 
     # Campos
-    day_of_week = Column(
-        "day_of_week", Integer, nullable=False
-    )  # 0 = domingo, 1 = segunda, ...
+    day_of_week = Column("day_of_week", Integer, nullable=False)  # 0 = domingo, 1 = segunda, ...
     start_time = Column("start_time", DateTime, nullable=False)
     end_time = Column("end_time", DateTime, nullable=False)
 
